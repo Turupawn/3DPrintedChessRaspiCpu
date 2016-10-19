@@ -80,6 +80,37 @@ static int GetDataToEngine( char data[] );
 static int AnswerFromEngineExpected( void );
 static int UserInputIsAValidMove( void );
 
+void moveRaspberrySteppers(char pos_x, char pos_y, char destination_x, char destination_y)
+{
+  while(pos_x != destination_x)
+  {
+    if(pos_x < destination_x)
+    {
+      pos_x++;
+      printf("Right\n");
+    }
+    if(pos_x > destination_x)
+    {
+      pos_x--;
+      printf("Left\n");
+    }
+  }
+
+  while(pos_y != destination_y)
+  {
+    if(pos_y < destination_y)
+    {
+      pos_y++;
+      printf("Up\n");
+    }
+    if(pos_y > destination_y)
+    {
+      pos_y--;
+      printf("Down\n");
+    }
+  }
+}
+
 /*
  * Initializes data used in the frontend.
  */
@@ -321,6 +352,23 @@ void NextEngineCmd( void )
         if ( enginemove == (leaf *) NULL ) {
           dbg_printf( "Bad move from engine\n" );
         } else {
+
+char pos_x = 'a';
+char pos_y = '1';
+char destination_x = enginemovestr[0];
+char destination_y = enginemovestr[1];
+
+moveRaspberrySteppers('a', '1', enginemovestr[0], enginemovestr[1]);
+
+printf("Grab\n");
+
+moveRaspberrySteppers(enginemovestr[0], enginemovestr[1], enginemovestr[2], enginemovestr[3]);
+
+printf("Release\n");
+
+moveRaspberrySteppers(enginemovestr[2], enginemovestr[3], 'a', '1');
+
+
           dbg_printf( "Engine move: <%s> (%d,%d)\n", enginemovestr,
                       (enginemove!=NULL ? enginemove->move : -1),
                       (enginemove!=NULL ? enginemove->score : -1) );
